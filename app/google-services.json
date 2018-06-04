@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "742651672453",
+    "firebase_url": "https://zerozero-alilozano.firebaseio.com",
+    "project_id": "zerozero-alilozano",
+    "storage_bucket": "zerozero-alilozano.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742651672453:android:320d486cb0a6683f",
+        "android_client_info": {
+          "package_name": "com.alilozano.zerozero"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "742651672453-fg7ah1hjhgjtdsmlpjjcct2rvjemt8ih.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alilozano.zerozero",
+            "certificate_hash": "46392ec47d27c815b2ffbda32206bac60fe08c87"
+          }
+        },
+        {
+          "client_id": "742651672453-kmsa56ucl09r51b42r2eiu70bl9vq6aj.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "742651672453-kmsa56ucl09r51b42r2eiu70bl9vq6aj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDs8XzLikQygdUn9fbPUsfr8Is5_WzKJFs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "742651672453-kmsa56ucl09r51b42r2eiu70bl9vq6aj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
