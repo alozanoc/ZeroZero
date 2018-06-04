@@ -11,7 +11,9 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class ZeroSharedPreferences {
     private static String MY_PREFS_NAME = "MY_PREFS_NAME";
-    public static String UID_LOGUED_USER = "UID_LOGUED_USER";
+
+
+    public static String KEY_UID_LOGUED_USER = "UID_LOGUED_USER";
 
     private SharedPreferences sharedPreferences;
     public ZeroSharedPreferences(Context context) {
