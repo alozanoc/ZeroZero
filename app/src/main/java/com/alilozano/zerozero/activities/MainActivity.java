@@ -10,6 +10,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alilozano.zerozero.R;
@@ -17,6 +20,8 @@ import com.alilozano.zerozero.ZeroSharedPreferences;
 import com.alilozano.zerozero.fragments.CreateTweetFragment;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
+import com.firebase.ui.database.FirebaseListAdapter;
+import com.firebase.ui.database.FirebaseListOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -30,6 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -48,19 +54,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btnPrueba = findViewById(R.id.btnPrueba);
         btnPrueba.setOnClickListener(this);
 
-        DatabaseReference myRef = db.getReference("message");
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String value = dataSnapshot.getValue(String.class);
-                Toast.makeText(MainActivity.this, value, Toast.LENGTH_SHORT).show();
-            }
+        ListView listView = findViewById(R.id.listViewTimeline);
+        DatabaseReference timelineRef = db.getReference("timeline");
+        /*FirebaseListOptions<Map> options = new FirebaseListOptions.Builder<Map>().setLayout(R.layout.tweet_layout)
+                .setQuery(timelineRef, Map.class)
+                .build();
 
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Log.w("ERROR", "Failed to read value.", error.toException());
+        ListAdapter adapter = new FirebaseListAdapter<Map>(options) {
+            protected void populateView(View view, Map timeline, int v) {
+                ((TextView) view.findViewById(R.id.txtTweet)).setText(String.valueOf(timeline.get("content")));
             }
-        });
+        };
+        listView.setAdapter(adapter);
+        */
 
     }
 
@@ -70,8 +76,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String uid = pref.getString(pref.KEY_UID_LOGUED_USER);
         if(uid == null){
             List<AuthUI.IdpConfig> providers = Arrays.asList(
-                    new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
-                    new AuthUI.IdpConfig.Builder(AuthUI.PHONE_VERIFICATION_PROVIDER).build());
+                    new AuthUI.IdpConfig.EmailBuilder().build(),
+                    new AuthUI.IdpConfig.PhoneBuilder().build());
 
             // Create and launch sign-in intent
             startActivityForResult(
