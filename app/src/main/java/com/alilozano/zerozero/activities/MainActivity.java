@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.alilozano.zerozero.R;
 import com.alilozano.zerozero.ZeroSharedPreferences;
 import com.alilozano.zerozero.fragments.CreateTweetFragment;
+import com.alilozano.zerozero.models.Tweet;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.database.FirebaseListAdapter;
@@ -51,22 +53,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         Button btnCerrarSesion = findViewById(R.id.btnCerrarSesion);
         btnCerrarSesion.setOnClickListener(this);
-        Button btnPrueba = findViewById(R.id.btnPrueba);
+        final Button btnPrueba = findViewById(R.id.btnPrueba);
         btnPrueba.setOnClickListener(this);
 
-        ListView listView = findViewById(R.id.listViewTimeline);
-        DatabaseReference timelineRef = db.getReference("timeline");
-        /*FirebaseListOptions<Map> options = new FirebaseListOptions.Builder<Map>().setLayout(R.layout.tweet_layout)
-                .setQuery(timelineRef, Map.class)
-                .build();
+        DatabaseReference messageRef = db.getReference("message");
 
-        ListAdapter adapter = new FirebaseListAdapter<Map>(options) {
-            protected void populateView(View view, Map timeline, int v) {
-                ((TextView) view.findViewById(R.id.txtTweet)).setText(String.valueOf(timeline.get("content")));
+        messageRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                btnPrueba.setText((String) dataSnapshot.getValue());
             }
-        };
-        listView.setAdapter(adapter);
-        */
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        String uid = pref.getString(pref.KEY_UID_LOGUED_USER);
+        if(uid!=null) {
+            DatabaseReference timelineRef = db.getReference("timeline/" + uid);
+
+            FirebaseListOptions<Tweet> options = new FirebaseListOptions.Builder<Tweet>()
+                    .setLayout(R.layout.tweet_layout)
+                    .setQuery(timelineRef.orderByKey(), Tweet.class)
+                    .setLifecycleOwner(this)
+                    .build();
+
+            ListView listView = findViewById(R.id.listViewTimeline);
+            ListAdapter adapter = new FirebaseListAdapter<Tweet>(options) {
+                protected void populateView(View view, Tweet tweet, int v) {
+                    ((TextView) view.findViewById(R.id.txtTweet)).setText(String.valueOf(tweet.getContent()));
+                }
+            };
+            listView.setAdapter(adapter);
+        }
+
 
     }
 

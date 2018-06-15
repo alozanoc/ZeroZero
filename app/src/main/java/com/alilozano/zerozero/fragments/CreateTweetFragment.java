@@ -37,7 +37,6 @@ public class CreateTweetFragment extends DialogFragment {
                 DatabaseReference timelineRef = db.getReference("timeline");
                 DatabaseReference userTimelineRef = timelineRef.child(uid);
                 DatabaseReference tweet = userTimelineRef.push();
-
                 tweet.child("content").setValue(txtTweet.getText().toString());
                 CreateTweetFragment.this.dismiss();
             }
